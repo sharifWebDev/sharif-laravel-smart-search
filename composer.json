@@ -1,0 +1,45 @@
+{
+    "name": "sharif/laravel-smart-search",
+    "description": "Advanced smart search functionality for Laravel Eloquent models",
+    "type": "library",
+    "keywords": ["laravel", "search", "eloquent", "smart-search", "relations"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sharif",
+            "email": "sharif@example.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelSmartSearch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelSmartSearch\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelSmartSearch\\SmartSearchServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+
