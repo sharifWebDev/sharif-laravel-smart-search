@@ -444,9 +444,10 @@ trait SmartSearch
     {
         try {
             $relatedModel = $this->{$relationName}()->getRelated();
+            \Illuminate\Support\Facades\Log::info($relatedModel);
             return $relatedModel->getSearchableColumns();
         } catch (\Throwable $e) {
-            return ['name', 'title', 'email'];
+            return [];
         }
     }
 }

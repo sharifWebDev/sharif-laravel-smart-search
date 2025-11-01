@@ -59,14 +59,7 @@ return [
             'two_factor_recovery_codes',
         ],
 
-        'prioritized' => [
-            'name',
-            'title',
-            'code',
-            'sku',
-            'email',
-            'username',
-        ],
+        'prioritized' => [],
 
         'max_per_table' => 15,
 

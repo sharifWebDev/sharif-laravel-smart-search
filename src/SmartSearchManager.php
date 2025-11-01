@@ -35,7 +35,7 @@ class SmartSearchManager
     /**
      * Get search configuration.
      */
-    public function config(string $key = null, mixed $default = null): mixed
+    public function config(?string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return config('smart-search');
