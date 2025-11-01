@@ -199,7 +199,7 @@ MIT License. See [LICENSE.md](LICENSE.md).
 ---
 
 <p align="center">
-<strong>Laravel Smart Search</strong> - Intelligent search for intelligent applications. 🚀
+<strong>Laravel Smart Search</strong> - Intelligent search for intelligent applications.
 </p>
 
 <p align="center">
