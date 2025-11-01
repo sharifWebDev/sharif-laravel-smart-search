@@ -208,5 +208,6 @@ MIT License. See [LICENSE.md](LICENSE.md).
 <a href="https://github.com/sharifWebDev/laravel-smart-search/issues">Issues</a> •
 <a href="https://github.com/sharifWebDev/laravel-smart-search/discussions">Discussions</a>
 </p>
+
 ```
 ````
