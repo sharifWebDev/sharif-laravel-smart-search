@@ -1,6 +1,6 @@
 {
   "name": "sharif/laravel-smart-search",
-  "description": "Advanced smart search functionality for Laravel Eloquent models with relation discovery and multiple search modes",
+  "description": "A smart search helper for Laravel. Provides advanced Eloquent search with relation discovery and multiple search modes.",
   "type": "library",
   "keywords": [
     "laravel",
@@ -11,18 +11,12 @@
     "full-text",
     "database",
     "query-builder",
-    "laravel",
-    "search",
-    "eloquent",
     "filter",
-    "relations",
-    "smart-search",
     "laravel-smart-search",
-    "laravel search",
-    "laravel search package"
+    "laravel-search",
+    "eloquent-search"
   ],
   "license": "MIT",
-  "version": "1.0.0",
   "authors": [
     {
       "name": "Sharif Uddin",
@@ -66,16 +60,10 @@
     "test": "vendor/bin/phpunit",
     "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
     "analyse": "vendor/bin/phpstan analyse",
-    "format": "vendor/bin/pint",
-    "post-autoload-dump": [
-      "@php ./vendor/bin/testbench package:discover --ansi"
-    ]
+    "format": "vendor/bin/pint"
   },
   "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "pestphp/pest-plugin": true
-    }
+    "sort-packages": true
   },
   "minimum-stability": "stable",
   "prefer-stable": true
