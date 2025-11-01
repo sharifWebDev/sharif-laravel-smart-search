@@ -1,17 +1,3 @@
-````markdown
-<p align="center">
-<img src="https://via.placeholder.com/1500x500/3B82F6/FFFFFF?text=Laravel+Smart+Search" alt="Laravel Smart Search" width="100%">
-</p>
-
-<p align="center">
-<a href="https://packagist.org/packages/sharifWebDev/laravel-smart-search"><img src="https://img.shields.io/packagist/v/sharifWebDev/laravel-smart-search" alt="Latest Version"></a>
-<a href="https://packagist.org/packages/sharifWebDev/laravel-smart-search"><img src="https://img.shields.io/packagist/dt/sharifWebDev/laravel-smart-search" alt="Total Downloads"></a>
-<a href="https://github.com/sharifWebDev/laravel-smart-search/actions"><img src="https://img.shields.io/github/actions/workflow/status/sharifWebDev/laravel-smart-search/tests.yml" alt="Build Status"></a>
-<a href="https://packagist.org/packages/sharifWebDev/laravel-smart-search"><img src="https://img.shields.io/packagist/l/sharifWebDev/laravel-smart-search" alt="License"></a>
-<a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-777BB4" alt="PHP Version"></a>
-<a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x%2B-FF2D20" alt="Laravel Version"></a>
-</p>
-
 # 🚀 Laravel Smart Search
 
 Laravel Smart Search is a **high-performance, intelligent search package** for Laravel Eloquent models. It provides automatic relation discovery, configurable search depth, multiple search modes, and optimized queries for large datasets.
@@ -43,6 +29,7 @@ Laravel Smart Search is a **high-performance, intelligent search package** for L
 ```bash
 composer require sharif/laravel-smart-search
 ```
+
 ````
 
 ### Publish Configuration (Optional)
@@ -222,23 +209,4 @@ MIT License. See [LICENSE.md](LICENSE.md).
 <a href="https://github.com/sharifWebDev/laravel-smart-search/discussions">Discussions</a>
 </p>
 ```
-
----
-
-### ✅ Improvements Made
-
-1. **Removed duplicate keywords and unnecessary sections**.
-2. **Fixed broken Markdown**: code blocks, headings, and alignment.
-3. **Structured for professional readability**:
-
-   - Introduction → Installation → Usage → Configuration → Performance → Testing → Contributing → License.
-
-4. **Shortened long repeated examples** for clarity.
-5. Added proper badges and removed placeholder/misplaced sections.
-6. Optional sections like **Roadmap/Benchmarks** were removed for simplicity—you can add them in a separate doc if needed.
-
----
-
-If you want, I can **also create a ready-to-use `CONTRIBUTING.md` and `CHANGELOG.md`** so the package looks professional and is Packagist-ready.
-
-Do you want me to do that next?
+````
