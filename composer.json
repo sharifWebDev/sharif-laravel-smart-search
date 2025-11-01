@@ -63,13 +63,8 @@
     "format": "vendor/bin/pint"
   },
   "config": {
-    "sort-packages": true,
-    "optimize-autoloader": true,
-    "allow-plugins": {
-      "composer/installers": true,
-      "orchestra/testbench": true
-    }
+    "sort-packages": true
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }
