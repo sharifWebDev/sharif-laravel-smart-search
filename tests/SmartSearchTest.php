@@ -1,64 +1,160 @@
 <?php
 
-namespace LaravelSmartSearch\Tests;
+namespace Sharif\LaravelSmartSearch\Tests\Feature;
 
-use Orchestra\Testbench\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use LaravelSmartSearch\Traits\SmartSearch;
-use Illuminate\Database\Eloquent\Model;
+use Sharif\LaravelSmartSearch\Tests\TestCase;
+use Sharif\LaravelSmartSearch\Tests\Models\User;
+use Sharif\LaravelSmartSearch\Tests\Models\Product;
+use Sharif\LaravelSmartSearch\Tests\Models\Category;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SmartSearchTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
-    protected function getPackageProviders($app)
-    {
-        return ['LaravelSmartSearch\SmartSearchServiceProvider'];
-    }
+    protected $user;
+    protected $category;
+    protected $products;
 
-    protected function getEnvironmentSetUp($app)
+    protected function setUp(): void
     {
-        // Setup default database to use sqlite :memory:
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
+        parent::setUp();
+
+        // Create test data
+        $this->user = User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'john@example.com'
+        ]);
+
+        $this->category = Category::factory()->create([
+            'name' => 'Electronics',
+            'slug' => 'electronics'
+        ]);
+
+        $this->products = Product::factory()->count(5)->create([
+            'user_id' => $this->user->id,
+            'category_id' => $this->category->id,
+        ]);
+
+        Product::factory()->create([
+            'name' => 'Wireless Keyboard',
+            'description' => 'A mechanical wireless keyboard',
+            'sku' => 'KB-WIRELESS-001',
+            'user_id' => $this->user->id,
+            'category_id' => $this->category->id,
         ]);
     }
 
-    protected function defineDatabaseMigrations()
+    /** @test */
+    public function it_performs_basic_search()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $results = Product::applySmartSearch('Keyboard')->get();
+
+        $this->assertCount(1, $results);
+        $this->assertEquals('Wireless Keyboard', $results->first()->name);
     }
 
     /** @test */
-    public function it_can_perform_basic_search()
+    public function it_searches_multiple_columns()
     {
-        // Create a test model that uses the trait
-        $model = new class extends Model {
-            use SmartSearch;
+        $results = Product::applySmartSearch('KB-WIRELESS')->get();
 
-            protected $table = 'test_models';
-            protected $fillable = ['name', 'description'];
-        };
-
-        // This is a simple test to verify the trait can be used
-        $this->assertTrue(method_exists($model, 'scopeApplySmartSearch'));
+        $this->assertCount(1, $results);
+        $this->assertEquals('Wireless Keyboard', $results->first()->name);
     }
 
     /** @test */
-    public function it_returns_query_builder_instance()
+    public function it_searches_through_relations()
     {
-        $model = new class extends Model {
-            use SmartSearch;
+        $results = Product::applySmartSearch('John')->get();
 
-            protected $table = 'test_models';
-            protected $fillable = ['name', 'description'];
-        };
+        $this->assertCount(6, $results); // All products belong to John
+    }
 
-        $query = $model->applySmartSearch('test');
+    /** @test */
+    public function it_respects_max_relation_depth()
+    {
+        $results = Product::applySmartSearch('John', [], [
+            'max_relation_depth' => 0
+        ])->get();
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $query);
+        $this->assertCount(0, $results); // No local matches for "John"
+    }
+
+    /** @test */
+    public function it_handles_different_search_modes()
+    {
+        // Exact match
+        $results = Product::applySmartSearch('Wireless Keyboard', [], [
+            'mode' => 'exact'
+        ])->get();
+
+        $this->assertCount(1, $results);
+
+        // Starts with
+        $results = Product::applySmartSearch('Wireless', [], [
+            'mode' => 'starts_with'
+        ])->get();
+
+        $this->assertCount(1, $results);
+
+        // Ends with
+        $results = Product::applySmartSearch('Keyboard', [], [
+            'mode' => 'ends_with'
+        ])->get();
+
+        $this->assertCount(1, $results);
+    }
+
+    /** @test */
+    public function it_respects_custom_columns()
+    {
+        $results = Product::applySmartSearch('KB-WIRELESS', ['sku'])->get();
+
+        $this->assertCount(1, $results);
+    }
+
+    /** @test */
+    public function it_handles_empty_search_gracefully()
+    {
+        $results = Product::applySmartSearch('')->get();
+
+        $this->assertCount(6, $results); // Returns all records
+    }
+
+    /** @test */
+    public function it_works_with_and_operator()
+    {
+        $results = Product::applySmartSearch('Wireless Keyboard', [], [
+            'search_operator' => 'and'
+        ])->get();
+
+        $this->assertCount(1, $results);
+    }
+
+    /** @test */
+    public function it_uses_builder_macros()
+    {
+        $results = Product::smartSearch('Keyboard')->get();
+
+        $this->assertCount(1, $results);
+    }
+
+    /** @test */
+    public function it_validates_search_term_length()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Product::applySmartSearch('a')->get();
+    }
+
+    /** @test */
+    public function it_can_be_disabled_globally()
+    {
+        config()->set('smart-search.enabled', false);
+
+        $results = Product::applySmartSearch('Keyboard')->get();
+
+        $this->assertCount(6, $results); // Returns all records when disabled
     }
 }

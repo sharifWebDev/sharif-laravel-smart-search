@@ -1,13 +1,13 @@
 <?php
 
-namespace LaravelSmartSearch\Tests\Models;
+namespace Sharif\LaravelSmartSearch\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelSmartSearch\Tests\Models\User;
-use LaravelSmartSearch\Traits\SmartSearch;
-use LaravelSmartSearch\Tests\Models\Category;
+use Sharif\LaravelSmartSearch\Tests\Models\User;
+use Sharif\LaravelSmartSearch\Traits\SmartSearch;
+use Sharif\LaravelSmartSearch\Tests\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use LaravelSmartSearch\Tests\Database\Factories\ProductFactory;
+use Sharif\LaravelSmartSearch\Tests\Database\Factories\ProductFactory;
 
 class Product extends Model
 {

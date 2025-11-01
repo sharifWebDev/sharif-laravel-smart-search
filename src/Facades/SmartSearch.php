@@ -1,41 +1,26 @@
 <?php
 
-namespace LaravelSmartSearch\Traits;
+namespace Sharif\LaravelSmartSearch\Facades;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Facade;
+use Sharif\LaravelSmartSearch\SmartSearchManager;
 
-trait SmartSearch
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder apply(\Illuminate\Database\Eloquent\Builder $query, string $search, array $options = [])
+ * @method static mixed config(string $key = null, mixed $default = null)
+ * @method static bool isEnabled()
+ * @method static void macro(string $name, object|callable $macro)
+ * @method static void mixin(object $mixin, bool $replace = true)
+ *
+ * @see \Sharif\LaravelSmartSearch\SmartSearchManager
+ */
+class SmartSearch extends Facade
 {
     /**
-     * Apply smart search on query
+     * Get the registered name of the component.
      */
-    public function scopeApplySmartSearch(
-        Builder $query,
-        ?string $search = null,
-        array $columns = [],
-        array $options = []
-    ): Builder {
-        $search = $search ?: request()?->input('query') ?: request()?->input('search');
-
-        if (!$search || empty(trim($search))) {
-            return $query;
-        }
-
-        $search = trim($search);
-
-        return $query->where(function ($q) use ($search, $columns) {
-            $table = $this->getTable();
-
-            // If no columns specified, use fillable or all columns
-            if (empty($columns)) {
-                $columns = $this->getFillable() ?: Schema::getColumnListing($table);
-            }
-
-            foreach ($columns as $column) {
-                $q->orWhere("{$table}.{$column}", 'LIKE', "%{$search}%");
-            }
-        });
+    protected static function getFacadeAccessor(): string
+    {
+        return 'smart-search';
     }
 }

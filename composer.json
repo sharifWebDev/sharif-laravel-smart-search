@@ -1,45 +1,82 @@
 {
-    "name": "sharif/laravel-smart-search",
-    "description": "Advanced smart search functionality for Laravel Eloquent models",
-    "type": "library",
-    "keywords": ["laravel", "search", "eloquent", "smart-search", "relations"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sharif",
-            "email": "sharif@example.com"
-        }
-    ],
-    "require": {
-        "php": "^8.1",
-        "laravel/framework": "^10.0|^11.0"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^8.0",
-        "phpunit/phpunit": "^10.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "LaravelSmartSearch\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "LaravelSmartSearch\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "LaravelSmartSearch\\SmartSearchServiceProvider"
-            ]
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+  "name": "sharif/laravel-smart-search",
+  "description": "Advanced smart search functionality for Laravel Eloquent models with relation discovery and multiple search modes",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "search",
+    "eloquent",
+    "smart-search",
+    "relations",
+    "full-text",
+    "database",
+    "query-builder",
+    "laravel",
+    "search",
+    "eloquent",
+    "filter",
+    "relations",
+    "smart-search",
+    "laravel-smart-search",
+    "laravel search",
+    "laravel search package"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Sharif Uddin",
+      "email": "sharif.webpro@gmail.com",
+      "role": "Developer",
+      "homepage": "https://sharifwebdev.github.io/"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "laravel/framework": "^10.0|^11.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^8.0",
+    "phpunit/phpunit": "^10.0",
+    "laravel/pint": "^1.0",
+    "nunomaduro/collision": "^7.0",
+    "spatie/laravel-ray": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sharif\\LaravelSmartSearch\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sharif\\LaravelSmartSearch\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sharif\\LaravelSmartSearch\\SmartSearchServiceProvider"
+      ],
+      "aliases": {
+        "SmartSearch": "Sharif\\LaravelSmartSearch\\Facades\\SmartSearch"
+      }
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+    "analyse": "vendor/bin/phpstan analyse",
+    "format": "vendor/bin/pint",
+    "post-autoload-dump": [
+      "@php ./vendor/bin/testbench package:discover --ansi"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }
-

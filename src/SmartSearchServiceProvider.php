@@ -1,27 +1,53 @@
 <?php
 
-namespace LaravelSmartSearch;
+namespace Sharif\LaravelSmartSearch;
 
 use Illuminate\Support\ServiceProvider;
+use Sharif\LaravelSmartSearch\Macros\BuilderMacros;
 
 class SmartSearchServiceProvider extends ServiceProvider
 {
+    /**
+     * Register any application services.
+     */
     public function register(): void
     {
-        // Merge package configuration
         $this->mergeConfigFrom(
             __DIR__ . '/../config/smart-search.php',
             'smart-search'
         );
     }
 
+    /**
+     * Bootstrap any application services.
+     */
     public function boot(): void
     {
-        // Publish configuration
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/smart-search.php' => config_path('smart-search.php'),
-            ], 'smart-search-config');
+            $this->publishResources();
+        }
+
+        $this->registerMacros();
+    }
+
+    /**
+     * Publish package resources.
+     */
+    protected function publishResources(): void
+    {
+        $this->publishes([
+            __DIR__ . '/../config/smart-search.php' => config_path('smart-search.php'),
+        ], 'smart-search-config');
+    }
+
+    /**
+     * Register query builder macros.
+     */
+    protected function registerMacros(): void
+    {
+        // Only register macros if the class exists
+        if (class_exists(BuilderMacros::class)) {
+            BuilderMacros::register();
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace LaravelSmartSearch\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use LaravelSmartSearch\Tests\Models\User;
+use Sharif\LaravelSmartSearch\Tests\Models\User;
 
 class UserFactory extends Factory
 {
