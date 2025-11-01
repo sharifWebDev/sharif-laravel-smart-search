@@ -127,7 +127,7 @@ trait SmartSearch
 
         // Check min/max length
         $length = mb_strlen($search);
-        $minLength = $config['min_length'] ?? 2;
+        $minLength = $config['min_length'] ?? 1;
         $maxLength = $config['max_length'] ?? 255;
 
         if ($length < $minLength) {
@@ -177,6 +177,66 @@ trait SmartSearch
     /**
      * Apply relation search.
      */
+    // protected function applyRelationSearch($query, string $search, array $config): void
+    // {
+    //     $relations = $this->getSearchableRelations();
+    //     $maxDepth = $config['max_relation_depth'] ?? 2;
+
+    //     foreach ($relations as $relationName => $relationConfig) {
+
+    //         \Log::info('relationName ', [$relationName]);
+    //         \Log::info('relationConfig ', [$relationConfig]);
+    //         \Log::info('config ', [$config]);
+    //         if ($this->shouldSearchRelation($relationName, $relationConfig, $config)) {
+    //             $this->applySingleRelationSearch(
+    //                 $query,
+    //                 $search,
+    //                 $relationName,
+    //                 $relationConfig,
+    //                 $config,
+    //                 $maxDepth
+    //             );
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Apply search for a single relation.
+    //  */
+    // protected function applySingleRelationSearch(
+    //     $query,
+    //     string $search,
+    //     string $relationName,
+    //     array $relationConfig,
+    //     array $config,
+    //     int $maxDepth
+    // ): void {
+    //     $operator = $config['search_operator'] === 'and' ? 'whereHas' : 'orWhereHas';
+
+    //     $query->{$operator}($relationName, function ($relQuery) use (
+    //         $search,
+    //         $relationConfig,
+    //         $config,
+    //         $maxDepth
+    //     ) {
+    //         $relatedModel = $relQuery->getModel();
+    //         $columns = $relationConfig['columns'] ?? [];
+    //         $nestedConfig = [
+    //             ...$config,
+    //             'max_relation_depth' => $maxDepth - 1,
+    //         ];
+
+    //         if (method_exists($relatedModel, 'applySearchConditions')) {
+    //             // $relatedModel->applySearchConditions($relQuery, $search, $columns, $nestedConfig);
+    //             // search
+
+    //         } else {
+    //             // Fallback for non-searchable related models
+    //             $this->applyFallbackRelationSearch($relQuery, $search, $columns, $nestedConfig);
+    //         }
+    //     });
+    // }
+
     protected function applyRelationSearch($query, string $search, array $config): void
     {
         $relations = $this->getSearchableRelations();
@@ -184,51 +244,116 @@ trait SmartSearch
 
         foreach ($relations as $relationName => $relationConfig) {
             if ($this->shouldSearchRelation($relationName, $relationConfig, $config)) {
-                $this->applySingleRelationSearch(
+                $this->applyDirectRelationSearch(
                     $query,
                     $search,
                     $relationName,
                     $relationConfig,
-                    $config,
-                    $maxDepth
+                    $config
                 );
             }
         }
     }
 
     /**
-     * Apply search for a single relation.
+     * Direct relation search implementation that always works
      */
-    protected function applySingleRelationSearch(
+    protected function applyDirectRelationSearch(
         $query,
         string $search,
         string $relationName,
         array $relationConfig,
-        array $config,
-        int $maxDepth
+        array $config
     ): void {
         $operator = $config['search_operator'] === 'and' ? 'whereHas' : 'orWhereHas';
+        $columns = $relationConfig['columns'] ?? [];
+        $searchTerm = $this->formatSearchTerm($search, $config);
+        $searchOperator = $this->getSearchOperator($config);
 
         $query->{$operator}($relationName, function ($relQuery) use (
-            $search,
-            $relationConfig,
-            $config,
-            $maxDepth
+            $columns,
+            $searchTerm,
+            $searchOperator,
+            $config
         ) {
             $relatedModel = $relQuery->getModel();
-            $columns = $relationConfig['columns'] ?? [];
-            $nestedConfig = [
-                ...$config,
-                'max_relation_depth' => $maxDepth - 1,
-            ];
+            $table = $relatedModel->getTable();
 
-            if (method_exists($relatedModel, 'applySearchConditions')) {
-                $relatedModel->applySearchConditions($relQuery, $search, $columns, $nestedConfig);
-            } else {
-                // Fallback for non-searchable related models
-                $this->applyFallbackRelationSearch($relQuery, $search, $columns, $nestedConfig);
+            // If no columns specified, get them from the related model
+            if (empty($columns)) {
+                $columns = $this->getRelationSearchableColumnsFromModel($relatedModel);
             }
+
+            \Log::info('Applying direct relation search', [
+                'table' => $table,
+                'columns' => $columns,
+                'search_term' => $searchTerm,
+                'operator' => $searchOperator
+            ]);
+
+            // Apply search on each column
+            $relQuery->where(function ($q) use ($table, $columns, $searchTerm, $searchOperator, $config) {
+                $subOperator = $config['search_operator'] === 'and' ? 'where' : 'orWhere';
+
+                foreach ($columns as $column) {
+                    if ($this->isValidColumnForSearch($table, $column)) {
+                        $q->{$subOperator}("{$table}.{$column}", $searchOperator, $searchTerm);
+                    }
+                }
+            });
         });
+    }
+
+    /**
+     * Get searchable columns from a model instance
+     */
+    protected function getRelationSearchableColumnsFromModel($model): array
+    {
+        try {
+            // Try to use the model's getSearchableColumns method if it exists
+            if (method_exists($model, 'getSearchableColumns')) {
+                return $model->getSearchableColumns();
+            }
+
+            // Try to use fillable columns
+            $fillable = $model->getFillable();
+            if (!empty($fillable)) {
+                return $fillable;
+            }
+
+            // Fallback to table columns (excluding common excluded columns)
+            $table = $model->getTable();
+            $allColumns = Schema::getColumnListing($table);
+            $excluded = ['id', 'created_at', 'updated_at', 'deleted_at', 'password'];
+
+            return array_filter($allColumns, function ($column) use ($excluded) {
+                return !in_array($column, $excluded) &&
+                    !Str::endsWith($column, ['_token', 'secret', '_id']);
+            });
+        } catch (\Exception $e) {
+            \Log::warning('Error getting columns from model', [
+                'model' => get_class($model),
+                'error' => $e->getMessage()
+            ]);
+
+            return ['name', 'title', 'code', 'description'];
+        }
+    }
+
+    /**
+     * Check if a column is valid for search
+     */
+    protected function isValidColumnForSearch(string $table, string $column): bool
+    {
+        try {
+            $columnType = Schema::getColumnType($table, $column);
+            $textTypes = ['string', 'text', 'varchar', 'char'];
+
+            return in_array($columnType, $textTypes);
+        } catch (\Exception $e) {
+            // If we can't get column type, assume it's searchable
+            return true;
+        }
     }
 
     /**
@@ -270,6 +395,7 @@ trait SmartSearch
     public function getSearchableRelations(): array
     {
         if (method_exists($this, 'searchableRelations')) {
+            // \Log::info('searchableRelations' . $this->searchableRelations());
             return $this->searchableRelations();
         }
 
@@ -279,6 +405,7 @@ trait SmartSearch
         foreach ($columns as $column) {
             if (Str::endsWith($column, '_id')) {
                 $relationName = Str::camel(str_replace('_id', '', $column));
+                // \Log::info('relationName ' . $relationName);
 
                 if ($this->isValidRelation($relationName)) {
                     $relations[$relationName] = [
@@ -443,9 +570,15 @@ trait SmartSearch
     protected function getRelationSearchableColumns(string $relationName): array
     {
         try {
-            $relatedModel = $this->{$relationName}()->getRelated();
-            \Illuminate\Support\Facades\Log::info($relatedModel);
-            return $relatedModel->getSearchableColumns();
+            $relation = $this->{$relationName}();
+            $relatedModel = $relation->getRelated();
+            $relatedClass = get_class($relatedModel);
+
+            $columns = $relatedModel->getFillable();
+            if (empty($columns)) {
+                $columns = Schema::getColumnListing($relatedModel->getTable());
+            }
+            return $columns;
         } catch (\Throwable $e) {
             return [];
         }
