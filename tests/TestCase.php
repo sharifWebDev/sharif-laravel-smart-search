@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Tests;
+namespace Sharifuddin\LaravelSmartSearch\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Sharif\LaravelSmartSearch\SmartSearchServiceProvider;
+use Sharifuddin\LaravelSmartSearch\SmartSearchServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,7 +19,7 @@ abstract class TestCase extends Orchestra
         $this->withFactories(__DIR__ . '/Database/factories');
 
         Factory::guessFactoryNamesUsing(
-            fn(string $modelName) => 'Sharif\\LaravelSmartSearch\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn(string $modelName) => 'Sharifuddin\\LaravelSmartSearch\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Facades;
+namespace Sharifuddin\LaravelSmartSearch\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Sharif\LaravelSmartSearch\SmartSearchManager;
+use Sharifuddin\LaravelSmartSearch\SmartSearchManager;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder apply(\Illuminate\Database\Eloquent\Builder $query, string $search, array $options = [])
@@ -12,7 +12,7 @@ use Sharif\LaravelSmartSearch\SmartSearchManager;
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  *
- * @see \Sharif\LaravelSmartSearch\SmartSearchManager
+ * @see \Sharifuddin\LaravelSmartSearch\SmartSearchManager
  */
 class SmartSearch extends Facade
 {

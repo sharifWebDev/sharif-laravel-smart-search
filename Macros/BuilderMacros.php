@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Macros;
+namespace Sharifuddin\LaravelSmartSearch\Macros;
 
 use Illuminate\Database\Eloquent\Builder;
-use Sharif\LaravelSmartSearch\Facades\SmartSearch;
+use Sharifuddin\LaravelSmartSearch\Facades\SmartSearch;
 
 class BuilderMacros
 {

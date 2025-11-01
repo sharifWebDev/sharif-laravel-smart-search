@@ -35,7 +35,7 @@ composer require sharif/laravel-smart-search
 ### Publish Configuration (Optional)
 
 ```bash
-php artisan vendor:publish --provider="Sharif\\LaravelSmartSearch\\SmartSearchServiceProvider" --tag="smart-search-config"
+php artisan vendor:publish --provider="Sharifuddin\\LaravelSmartSearch\\SmartSearchServiceProvider" --tag="smart-search-config"
 ```
 
 ---
@@ -52,7 +52,7 @@ Add the `SmartSearch` trait to your Eloquent models:
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Sharif\LaravelSmartSearch\Traits\SmartSearch;
+use Sharifuddin\LaravelSmartSearch\Traits\SmartSearch;
 
 class Product extends Model
 {

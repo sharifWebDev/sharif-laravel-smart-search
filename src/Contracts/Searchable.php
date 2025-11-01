@@ -1,6 +1,6 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Contracts;
+namespace Sharifuddin\LaravelSmartSearch\Contracts;
 
 use Illuminate\Database\Eloquent\Builder;
 

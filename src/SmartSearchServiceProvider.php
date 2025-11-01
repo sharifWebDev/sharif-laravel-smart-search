@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch;
+namespace Sharifuddin\LaravelSmartSearch;
 
 use Illuminate\Support\ServiceProvider;
-use Sharif\LaravelSmartSearch\Macros\BuilderMacros;
+use Sharifuddin\LaravelSmartSearch\Macros\BuilderMacros;
 
 class SmartSearchServiceProvider extends ServiceProvider
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Tests\Feature;
+namespace Sharifuddin\LaravelSmartSearch\Tests\Feature;
 
-use Sharif\LaravelSmartSearch\Tests\TestCase;
-use Sharif\LaravelSmartSearch\Tests\Models\User;
-use Sharif\LaravelSmartSearch\Tests\Models\Product;
-use Sharif\LaravelSmartSearch\Tests\Models\Category;
+use Sharifuddin\LaravelSmartSearch\Tests\TestCase;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\User;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Product;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SmartSearchTest extends TestCase

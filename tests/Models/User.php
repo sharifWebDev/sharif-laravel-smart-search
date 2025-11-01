@@ -1,9 +1,9 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Tests\Models;
+namespace Sharifuddin\LaravelSmartSearch\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Sharif\LaravelSmartSearch\Tests\Models\Product;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use LaravelSmartSearch\Tests\Database\Factories\UserFactory;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Tests\Database\Factories;
+namespace Sharifuddin\LaravelSmartSearch\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Sharif\LaravelSmartSearch\Tests\Models\Product;
-use Sharif\LaravelSmartSearch\Tests\Models\Category;
-use Sharif\LaravelSmartSearch\Tests\Models\User;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Product;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Category;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\User;
 
 class ProductFactory extends Factory
 {

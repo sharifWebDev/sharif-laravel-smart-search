@@ -1,6 +1,6 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Helpers;
+namespace Sharifuddin\LaravelSmartSearch\Helpers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;

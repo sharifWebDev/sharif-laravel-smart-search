@@ -1,5 +1,5 @@
 {
-  "name": "sharif/laravel-smart-search",
+  "name": "sharifuddin/laravel-smart-search",
   "description": "A smart search helper for Laravel. Provides advanced Eloquent search with relation discovery and multiple search modes.",
   "type": "library",
   "keywords": [
@@ -38,21 +38,21 @@
   },
   "autoload": {
     "psr-4": {
-      "Sharif\\LaravelSmartSearch\\": "src/"
+      "Sharifuddin\\LaravelSmartSearch\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Sharif\\LaravelSmartSearch\\Tests\\": "tests/"
+      "Sharifuddin\\LaravelSmartSearch\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Sharif\\LaravelSmartSearch\\SmartSearchServiceProvider"
+        "Sharifuddin\\LaravelSmartSearch\\SmartSearchServiceProvider"
       ],
       "aliases": {
-        "SmartSearch": "Sharif\\LaravelSmartSearch\\Facades\\SmartSearch"
+        "SmartSearch": "Sharifuddin\\LaravelSmartSearch\\Facades\\SmartSearch"
       }
     }
   },

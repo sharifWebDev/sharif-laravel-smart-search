@@ -1,13 +1,13 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Traits;
+namespace Sharifuddin\LaravelSmartSearch\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Sharif\LaravelSmartSearch\Contracts\Searchable;
+use Sharifuddin\LaravelSmartSearch\Contracts\Searchable;
 
 trait SmartSearch
 {

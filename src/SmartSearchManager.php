@@ -1,12 +1,12 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch;
+namespace Sharifuddin\LaravelSmartSearch;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Traits\Macroable;
-use Sharif\LaravelSmartSearch\Contracts\Searchable;
-use Sharif\LaravelSmartSearch\Exceptions\SmartSearchException;
+use Sharifuddin\LaravelSmartSearch\Contracts\Searchable;
+use Sharifuddin\LaravelSmartSearch\Exceptions\SmartSearchException;
 
 class SmartSearchManager
 {

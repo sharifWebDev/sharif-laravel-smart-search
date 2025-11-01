@@ -1,6 +1,6 @@
 <?php
 
-namespace Sharif\LaravelSmartSearch\Exceptions;
+namespace Sharifuddin\LaravelSmartSearch\Exceptions;
 
 use Exception;
 

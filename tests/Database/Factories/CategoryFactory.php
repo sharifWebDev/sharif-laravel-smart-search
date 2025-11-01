@@ -3,7 +3,7 @@
 namespace LaravelSmartSearch\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Sharif\LaravelSmartSearch\Tests\Models\Category;
+use Sharifuddin\LaravelSmartSearch\Tests\Models\Category;
 
 class CategoryFactory extends Factory
 {
