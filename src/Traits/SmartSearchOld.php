@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 
-trait SmartSearch
+trait SmartSearchOld
 {
     public function scopeApplySmartSearch(
         Builder $query,
