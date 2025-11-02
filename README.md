@@ -30,7 +30,7 @@ Laravel Smart Search is a **high-performance, intelligent search package** for L
 composer require sharif/laravel-smart-search
 ```
 
-````
+``
 
 ### Publish Configuration (Optional)
 
@@ -208,6 +208,4 @@ MIT License. See [LICENSE.md](LICENSE.md).
 <a href="https://github.com/sharifWebDev/laravel-smart-search/issues">Issues</a> •
 <a href="https://github.com/sharifWebDev/laravel-smart-search/discussions">Discussions</a>
 </p>
-
 ```
-````
